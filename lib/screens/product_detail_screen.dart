@@ -4,9 +4,6 @@ import '../providers/products.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
-  final String id;
-
-  ProductDetailScreen(this.id);
 
   @override
   Widget build(BuildContext context) {

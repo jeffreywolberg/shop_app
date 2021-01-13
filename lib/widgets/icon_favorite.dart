@@ -11,7 +11,7 @@ class IconFavorite extends StatelessWidget {
       color: Theme.of(context).accentColor,
       onPressed: () {
         product.toggleFavoriteStatus();
-        print('rebuilt');
+        print('rebuilt Icon');
       },
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/cart.dart';
 import 'package:shop_app/widgets/icon_favorite.dart';
 import '../providers/product.dart';
 import '../screens/product_detail_screen.dart';
@@ -13,7 +14,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('rebuiltWidget');
+    print('rebuilt Product Item');
     // final productsData = Provider.of<Products>(context);
 
     // see 'Consumer' Widget below. We can set listen to false, because
@@ -22,6 +23,7 @@ class ProductItem extends StatelessWidget {
     // the Widgets that are affected by isFavorite, it will listen and rerender
     // the Widgets only at that point
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -46,9 +48,8 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           leading: IconFavorite(),
-
           // leading: Consumer<Product>(
-          //   builder: (ctx, product, _) => IconButton(
+          //   builder: (ctx, product, child) => IconButton(
           //     icon: Icon(
           //         product.isFavorite ? Icons.favorite : Icons.favorite_border),
           //     color: Theme.of(context).accentColor,
@@ -62,9 +63,11 @@ class ProductItem extends StatelessWidget {
             width: 10,
           ),
           trailing: IconButton(
-            icon: Icon(Icons.delete),
+            icon: Icon(Icons.shopping_cart),
             color: Theme.of(context).accentColor,
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(product.id, product.price, product.title);
+            },
           ),
         ),
       ),
