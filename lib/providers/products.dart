@@ -44,6 +44,32 @@ class Products with ChangeNotifier {
     return [..._items];
   }
 
+  void addProduct(Product product) {
+    _items.add(
+      Product(
+          description: product.description,
+          id: DateTime.now().toString(),
+          imageUrl: product.imageUrl,
+          price: product.price,
+          title: product.title),
+    );
+    notifyListeners();
+    // _items.insert(0, Product(...)) // to add at start of list
+  }
+
+  void removeProduct(String id) {
+    _items.removeWhere((item) {
+      return item.id == id ? true : false;
+    });
+    notifyListeners();
+  }
+
+  void editProduct(Product product) {
+    int index = _items.indexWhere((item) => item.id == product.id);
+    _items[index] = product;
+    notifyListeners();
+  }
+
   // void showFavoritesOnly() {
   //   _showFavoritesOnly = true;
   //   notifyListeners();
