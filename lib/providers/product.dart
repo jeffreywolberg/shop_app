@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/models/http_exceptions.dart';
-
-const url = 'https://shop-app-57fae-default-rtdb.firebaseio.com/products.json';
+import 'package:shop_app/models/http_exception.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -23,25 +21,35 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  Future<void> toggleFavoriteStatus(Product product) async {
-    final String urlSpecific = url.split('.json')[0] + '/${product.id}.json';
-    final oldStatus = product.isFavorite;
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
+    print(id);
+    print(this.title);
+    final String url =
+        'https://shop-app-57fae-default-rtdb.firebaseio.com/userFavoriteProducts/$userId/$id.json?auth=$token';
+    final oldStatus = isFavorite;
     isFavorite = !isFavorite;
+    print(isFavorite);
     notifyListeners();
 
-    final response = await http.patch(urlSpecific,
-        body: json.encode({
-          'title': product.title,
-          'imageUrl': product.imageUrl,
-          'description': product.description,
-          'price': product.price,
-          'isFavorite': isFavorite,
-        }));
+    // final response = await http.patch(url,
+    //     body: json.encode({
+    //       'title': title,
+    //       'imageUrl': imageUrl,
+    //       'description': description,
+    //       'price': price,
+    //       'isFavorite': isFavorite,
+    //     }));
+    final response = await http.put(
+      url,
+      body: json.encode(
+        isFavorite,
+      ),
+    );
     if (response.statusCode >= 400) {
+      print(response.statusCode);
       isFavorite = oldStatus;
       notifyListeners();
       throw HttpException('Couldn\'t be deleted');
     }
-    ;
   }
 }

@@ -17,23 +17,27 @@ class ProductsGrid extends StatelessWidget {
     final products =
         showOnlyFavorites ? productsData.favorites : productsData.items;
 
-    return GridView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: products.length,
-      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-        value: products[i],
-        child: ProductItem(
-            // products[i].id,
-            // products[i].title,
-            // products[i].imageUrl,
+    return productsData.items.length == 0
+        ? Center(
+            child: Text('No Products Here'),
+          )
+        : GridView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: products.length,
+            itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+              value: products[i],
+              child: ProductItem(
+                  // products[i].id,
+                  // products[i].title,
+                  // products[i].imageUrl,
+                  ),
             ),
-      ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-    );
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+          );
   }
 }

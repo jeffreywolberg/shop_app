@@ -21,10 +21,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
   }
 
-  Future<void> _getOrders(BuildContext context) async {
-    await Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
-  }
-
   @override
   void initState() {
     _ordersFuture = _getOrdersFuture();
@@ -88,6 +84,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (dataSnapshot.error != null) {
+                print(dataSnapshot.error);
                 // do some error Handling
                 return Center(
                   child: Text('Error'),
